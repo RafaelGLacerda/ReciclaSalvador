@@ -1,96 +1,244 @@
-/* Reset básico */
+/* Geral */
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Impede o overflow horizontal */
 }
 
 /* Container principal */
 .container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
+  transition: transform 0.5s ease-in-out; /* Transição suave ao trocar de abas */
 }
 
-/* Barra lateral */
+.container.full-screen {
+  width: 100%;
+}
+
+
+
+/* Sidebar */
 .sidebar {
   width: 250px;
-  background-color: #2c3e50;
+  background-color: #333;
+  color: white;
   padding: 20px;
   display: flex;
   flex-direction: column;
+  transition: width 0.3s ease, visibility 0s linear 0.3s; /* Transição da largura */
+  z-index: 1000;
+}
+
+.sidebar.closed {
+  width: 0;
+  padding: 0;
+  visibility: hidden; /* Torna invisível a sidebar */
 }
 
 .sidebar button {
-  background-color: #34495e;
+  background-color: transparent;
   color: white;
   border: none;
-  padding: 15px;
-  margin: 5px 0;
-  cursor: pointer;
+  font-size: 18px;
+  margin-bottom: 15px;
   text-align: left;
-  border-radius: 5px;
-  font-size: 16px;
+  cursor: pointer;
+  z-index: 1001; /* Garantir que o botão de alternância fique acima da barra lateral */
 }
 
-.sidebar button:hover {
-  background-color: #1abc9c;
+.google-login-button {
+  margin-bottom: 15px;
 }
 
 /* Conteúdo principal */
 .content {
-  flex: 1;
+  flex-grow: 1;
   padding: 20px;
-  background-color: white;
-  border-radius: 10px;
-  margin: 20px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards; /* Animação de fade-in ao carregar conteúdo */
+}
+
+/* Animação para transições de tela */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animação para alternar abas */
+.container.change-view {
+  animation: slideOut 0.5s ease forwards; /* Animação de saída */
+}
+
+.container.change-view-enter {
+  animation: slideIn 0.5s ease forwards; /* Animação de entrada */
+}
+
+/* Perfil */
+.profile-info p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Seção de Reciclagem */
+.recycle-box {
+  margin-bottom: 20px;
+}
+
+.recycle-box input {
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+  width: 200px;
+}
+
+.recycle-box button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.recycle-box button:hover {
+  background-color: #45a049;
 }
 
 /* Mapa */
 .map {
-  width: 100%;
   height: 300px;
-  border-radius: 10px;
-  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
-/* Botões de reciclagem */
-button {
-  background-color: #27ae60;
-  color: white;
-  border: none;
-  padding: 10px;
-  margin: 5px;
-  cursor: pointer;
-  border-radius: 5px;
+/* Premiação */
+.reward-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.reward-item span {
   font-size: 16px;
 }
 
-button:hover {
-  background-color: #219150;
+.reward-item .reward-name {
+  font-weight: 500;
+  flex-grow: 1;
 }
 
-/* Lista de recompensas */
-ul {
-  list-style: none;
-  padding: 0;
+.reward-item .reward-points {
+  font-size: 14px;
+  color: #333;
+  position: relative;
+  right: 30px; /* Ajuste à esquerda */
+  top: -10px; /* Move um pouco mais para cima */
 }
 
-li {
-  background: #ecf0f1;
-  padding: 15px;
-  margin: 10px 0;
+.reward-item button {
+  padding: 10px 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
   border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
-/* Botão de resgate */
-li button {
-  background-color: #e74c3c;
+.reward-item button:hover {
+  background-color: #45a049;
 }
 
-li button:hover {
-  background-color: #c0392b;
+.reward-item .insufficient-points {
+  color: #f44336;
+  font-size: 14px;
+  margin-left: 10px;
+  font-style: italic;
 }
+
+/* Conscientização */
+.conscientizacao {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.conscientizacao h2 {
+  margin-top: 20px;
+  font-size: 22px;
+  color: #333;
+}
+
+.conscientizacao p {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.conscientizacao ul {
+  margin-left: 20px;
+}
+
+.conscientizacao ul li {
+  margin-bottom: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .content {
+    padding: 15px;
+    margin-top: 60px; 
+  }
+
+  .reward-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reward-item .reward-points {
+    right: auto;
+    top: auto;
+  }
+}
+
